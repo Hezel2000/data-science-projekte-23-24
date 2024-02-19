@@ -6,32 +6,32 @@ st.title('Data Science 23-24 Projekte')
 
 video_list = pd.read_csv('data/data-science-videos-23-24.csv')
 
-tab1, tab2 = st.tabs(['Projekte', 'Bewertung'])
+# tab1, tab2 = st.tabs(['Projekte', 'Bewertung'])
 
-with tab1:
-    sel_project = st.selectbox('Wähle ein Projekt', video_list['Titel'])
-    fil = video_list['Titel'] == sel_project
-    vim_link = video_list[fil]['Vimeo_Link'].tolist()[0]
+# with tab1:
+sel_project = st.selectbox('Wähle ein Projekt', video_list['Titel'])
+fil = video_list['Titel'] == sel_project
+vim_link = video_list[fil]['Vimeo_Link'].tolist()[0]
 
-    col1, col2 = st.columns([70,30])
-    with col1:
-        st_player(vim_link)
-    with col2:
-        with st.expander('Dauer', expanded=True):
-            st.write(video_list[fil]['Dauer'].tolist()[0])
-        with st.expander('Zusatz-Material', expanded=True):
-            if video_list[fil]['supplement'].tolist()[0] != 'none available':
-                st.write("[Download](https://raw.githubusercontent.com/Hezel2000/Data_Science/main/jupyter_nb/Basics_Function_plotting_with_the_numpy_package.ipynb" + ")")
-            else:
-                'keines vorhanden'
+col1, col2 = st.columns([70,30])
+with col1:
+    st_player(vim_link)
+with col2:
+    with st.expander('Dauer', expanded=True):
+        st.write(video_list[fil]['Dauer'].tolist()[0])
+    with st.expander('Zusatz-Material', expanded=True):
+        if video_list[fil]['supplement'].tolist()[0] != 'none available':
+            st.write("[Download](https://raw.githubusercontent.com/Hezel2000/Data_Science/main/jupyter_nb/Basics_Function_plotting_with_the_numpy_package.ipynb" + ")")
+        else:
+            'keines vorhanden'
 
-with tab2:
-    st.subheader('Fragen zur Projekt-Bewertung')
-    st.write('*Nur Personen die ein Video abgegeben haben dürfen bewerten, und nur einmal!**')
+# with tab2:
+#     st.subheader('Fragen zur Projekt-Bewertung')
+#     st.write('*Nur Personen die ein Video abgegeben haben dürfen bewerten, und nur einmal!**')
     
-    st.write('Die Bewertungen der beiden Betreuer sind die allein für die Note zählenden, und werden ohne Blick auf die von Euch abgegeben Bewertungen gemacht. Eure Bewertungen dienen zum Vergleich bei der Abschlussbesprechung.')
-    st.write('Bewertungen können – müssen nicht – bis zum So, 3. März 2024 23:59 Uhr abgegeben werden.')
-    st.link_button('Zur Bewertungsseite', 'https://docs.google.com/forms/d/1KJ_Lwj4UzaVB_vdra4z9yaY2yM_uB5ZxxPW1zVJ7pLk/edit')
+#     st.write('Die Bewertungen der beiden Betreuer sind die allein für die Note zählenden, und werden ohne Blick auf die von Euch abgegeben Bewertungen gemacht. Eure Bewertungen dienen zum Vergleich bei der Abschlussbesprechung.')
+#     st.write('Bewertungen können – müssen nicht – bis zum So, 3. März 2024 23:59 Uhr abgegeben werden.')
+#     st.link_button('Zur Bewertungsseite', 'https://docs.google.com/xxx')
 
     # st.divider()
     # st.write("1. Es wird verständlich in die Aufgabenstellung eingeführt")
