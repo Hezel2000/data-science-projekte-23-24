@@ -1,30 +1,26 @@
 import streamlit as st
-import pandas as pd
-from streamlit_player import st_player
+import mag4 as mg
+import plotly.express as px
 
-st.title('Data Science 23-24 Projekte')
+mg_datasets = mg.available_datasets()
+fil = mg_datasets['Source'] == 'Georoc'
+georoc_datasets = mg_datasets[fil]['Title']
+elements = mg.get_data('emei').columns.tolist()[27:]
 
-video_list = pd.read_csv('data/data-science-videos-23-24.csv')
+def plot_data(x_el, y_el, dataset):
+    df = mg.get_data(dataset)
+    x_el_data = df[x_el]/10000
+    y_el_data = df[y_el]/10000
+    fig = px.scatter(df, x=x_el_data, y=y_el_data, title=dataset)
+    fig.update_layout(xaxis_title=f'{x_el} (wt%)', yaxis_title=f'{y_el} (wt%)')
+    st.plotly_chart(fig)
 
-sel_project = st.selectbox('Wähle ein Projekt', video_list['Titel'])
-fil = video_list['Titel'] == sel_project
-vim_link = video_list[fil]['Vimeo_Link'].tolist()[0]
+col1, col2 = st.columns([30, 70])
 
-col1, col2 = st.columns([70,30])
 with col1:
-    st_player(vim_link)
+    sel_dataset = st.selectbox('Select Dataset', georoc_datasets)
+    sel_x_el = st.selectbox('Select x-axis', elements)
+    sel_y_el = st.selectbox('Select y-axis', elements)
+
 with col2:
-    with st.expander('Dauer', expanded=True):
-        st.write(video_list[fil]['Dauer'].tolist()[0])
-    with st.expander('Zusatz-Material', expanded=True):
-        if video_list[fil]['supplement'].tolist()[0] != 'none available':
-            st.write("[Download](https://raw.githubusercontent.com/Hezel2000/Data_Science/main/jupyter_nb/Basics_Function_plotting_with_the_numpy_package.ipynb" + ")")
-        else:
-            'keines vorhanden'
-
-#---------------------------------#
-#------ Main Page Sidebar --------#
-#---------------------------------#  
-
-st.sidebar.image('data/Goethe-Logo.jpg', width=150)
-st.sidebar.write("Data Science Movie Night")
+    plot_data(sel_x_el, sel_y_el, sel_dataset)
